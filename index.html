@@ -12,14 +12,16 @@
         <input type="text" id="iban_in">
     </label>
     <div id="iban_out"></div>
-    <button id="iban_gen"></button>
+    <button id="iban_gen">Gerar IBAN</button>
     <label>
         <input type="text" id="nif_in">
     </label>
     <div id="nif_out"></div>
-    <button id="nif_gen"></button>
+    <button id="nif_gen">Gerar NIF</button>
 
     <script>
+        const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
         const getNIF = (from = .1, to = .3) => { // 1xx xxx xxx - 3xx xxx xxx
             const random = getRandomInt(from * 100000000, to * 100000000 - 1).toString();
             let total = 0;
