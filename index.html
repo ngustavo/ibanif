@@ -5,61 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ibanif</title>
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 
 <body>
-    <label>
-        <input type="text" id="iban_in">
-    </label>
-    <div id="iban_out"></div>
-    <button id="iban_gen">Gerar IBAN</button>
-    <label>
-        <input type="text" id="nif_in">
-    </label>
-    <div id="nif_out"></div>
-    <button id="nif_gen">Gerar NIF</button>
+    <main>
+        <div class="column">
+            <button id="iban_gen">Gerar IBANs</button>
+            <div id="iban_out"></div>
+        </div>
+        <div class="column">
+            <button id="nif1_gen">Gerar NIFs PS</button>
+            <div id="nif1_out"></div>
+        </div>
+        <div class="column">
+            <button id="nif5_gen">Gerar NIFs PC</button>
+            <div id="nif5_out"></div>
+        </div>
+    </main>
 
-    <script>
-        const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-        const getNIF = (from = .1, to = .3) => { // 1xx xxx xxx - 3xx xxx xxx
-            const random = getRandomInt(from * 100000000, to * 100000000 - 1).toString();
-            let total = 0;
-
-            for (let i = 0; i < 8; i++) {
-                total += parseInt(random[i]) * (9 - i);
-            }
-
-            const checkDigit = (11 - (total % 11)) % 11;
-            const nif = random + (checkDigit > 9 ? 0 : checkDigit);
-            return nif;
-        }
-
-        const getIBAN = (prefix = "0007") => { // PT50 0007 xxx xxx xxx xxx xxx xx
-            const min = 1e14;
-            const max = 1e15 - 1;
-            const random = `${prefix}${getRandomInt(min, max)}`;
-            const nib1 = random.toString();
-
-            let result = 0;
-            for (let nibIndex = 0; nibIndex < 19; nibIndex++) {
-                result = ((result + parseInt(nib1[nibIndex])) * 10) % 97;
-            }
-
-            const checkDigit = `${98 - ((result * 10) % 97)}`.padStart(2, "0");
-            const nib = `${random}${checkDigit}`;
-
-            return `PT50${nib}`;
-        }
-
-        document.querySelector("#iban_gen").addEventListener("click", () => {
-            document.querySelector("#iban_out").innerHTML = getIBAN();
-        });
-
-        document.querySelector("#nif_gen").addEventListener("click", () => {
-            document.querySelector("#nif_out").innerHTML = getNIF();
-        });
-    </script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 
 </html>
